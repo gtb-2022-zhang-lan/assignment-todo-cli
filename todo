@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 declare -r TODO_ROOT="$HOME/.todo"
 declare -r TASK_FILE="${TODO_ROOT}/tasks"
+
 if [[ $# -eq 0 ]]; then
   echo "usage: todo <init|list|add|edit|remove|mark|unmark> [args]"
 fi
@@ -26,5 +27,15 @@ if [[ $1 == 'add' ]]; then
   shift
   declare -r TASK_TITLE="$*"
 
-  echo"$TASK_TITLE"
+  declare -r LAST_TASK_ID=$(cat "$TASK_FILE" | tail -n1 | cut -d' ' -f1)
+  declare -r TASK_ID=$(( LAST_TASK_ID + 1 ))
+  echo "$TASK_ID $TASK_TITLE" >>"$TASK_FILE"
+fi
+
+if [[ $1 == 'edit' ]]; then
+  declare -r TASK_ID="$2"
+  shift 2
+  declare -r TASK_TITLE="$*"
+
+  sed "s/^${TASK_ID} .*/${TASK_ID} ${TASK_TITLE}/" "$TASK_FILE"
 fi
