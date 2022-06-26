@@ -18,9 +18,9 @@ fi
 
 if [[ $1 == 'list' ]]; then
   echo "# To be done"
-  grep '^[0-9]' "$TASK_FILE"
+  grep '^[0-9]' "$TASK_FILE" || echo "Empty"
   echo "# Completed"
-  echo "Empty"
+  grep 'x[0-9]' "$TASK_FILE" | sed 's/^x//'
 fi
 
 if [[ $1 == 'add' ]]; then
@@ -51,5 +51,11 @@ fi
 if [[ $1 == 'remove' ]]; then
   for TASK_ID in "$@"; do
     sed -i '' "s/^${TASK_ID} /-&/" "$TASK_FILE"
+  done
+fi
+
+if [[ $1 == 'mark' ]]; then
+  for TASK_ID in "$@"; do
+    sed -i '' "s/^${TASK_ID} /x&/" "$TASK_FILE"
   done
 fi
