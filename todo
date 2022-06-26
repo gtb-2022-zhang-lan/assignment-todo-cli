@@ -1,21 +1,30 @@
 #!/usr/bin/env bash
+declare -r TODO_ROOT="$HOME/.todo"
+declare -r TASK_FILE="${TODO_ROOT}/tasks"
 if [[ $# -eq 0 ]]; then
   echo "usage: todo <init|list|add|edit|remove|mark|unmark> [args]"
 fi
 
 if [[ $1 == 'init' ]]; then
-  mkdir -p "$HOME/.todo"
-  touch "$HOME/.todo/tasks"
+  mkdir -p "$TODO_ROOT"
+  touch "$TASK_FILE"
   echo "Initialized successfully"
 fi
 
-if [[ ! -f "$HOME/.todo/tasks" ]]; then
+if [[ ! -f "$TASK_FILE" ]]; then
   echo "Please run 'todo init' before running '$1' command."
 fi
 
 if [[ $1 == 'list' ]]; then
   echo "# To be done"
-  cat "$HOME/.todo/tasks"
+  cat "$TASK_FILE"
   echo "# Completed"
   echo "Empty"
+fi
+
+if [[ $1 == 'add' ]]; then
+  shift
+  declare -r TASK_TITLE="$*"
+
+  echo"$TASK_TITLE"
 fi
