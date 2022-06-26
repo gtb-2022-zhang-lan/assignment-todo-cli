@@ -28,7 +28,7 @@ if [[ $1 == 'add' ]]; then
   declare -r TASK_TITLE="$*"
 
   declare LAST_TASK_ID
-  LAST_TASK_ID=$(tail -n1 "$TASK_FILE" | cut -d' ' -f1)
+  LAST_TASK_ID=$(tail -n1 "$TASK_FILE" | cut -d' ' -f1 | grep -o '[0-9]')
   declare -r LAST_TASK_ID
 
   declare -r TASK_ID=$(( LAST_TASK_ID + 1 ))
