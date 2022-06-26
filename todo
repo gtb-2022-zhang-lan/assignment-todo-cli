@@ -2,3 +2,9 @@
 if [[ $# -eq 0 ]]; then
   echo "usage: todo <init|list|add|edit|remove|mark|unmark> [args]"
 fi
+
+if [[ $1 == 'init' ]]; then
+  mkdir -p "$HOME/.todo"
+  touch "$HOME/.todo/tasks"
+  echo "Initialized successfully"
+fi
