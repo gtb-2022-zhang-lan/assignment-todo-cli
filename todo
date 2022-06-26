@@ -8,3 +8,14 @@ if [[ $1 == 'init' ]]; then
   touch "$HOME/.todo/tasks"
   echo "Initialized successfully"
 fi
+
+if [[ ! -f "$HOME/.todo/tasks" ]]; then
+  echo "Please run 'todo init' before running '$1' command."
+fi
+
+if [[ $1 == 'list' ]]; then
+  echo "# To be done"
+  cat "$HOME/.todo/tasks"
+  echo "# Completed"
+  echo "Empty"
+fi
