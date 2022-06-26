@@ -1,2 +1,4 @@
 #!/usr/bin/env bash
-
+if [[ $# -eq 0 ]]; then
+  echo "usage: todo <init|list|add|edit|remove|mark|unmark> [args]"
+fi
