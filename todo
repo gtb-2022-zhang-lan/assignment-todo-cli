@@ -16,3 +16,10 @@ fi
 if [[ ! -f "$TASK_LIST" ]]; then
   echo "Please run 'todo init' before running '$1' command."
 fi
+
+if [[ $1 == 'list' ]]; then
+  echo "# To be done"
+  cat "$TASK_LIST"
+  echo "# Completed"
+  echo "Empty"
+fi
