@@ -23,3 +23,15 @@ if [[ $1 == 'list' ]]; then
   echo "# Completed"
   echo "Empty"
 fi
+
+if [[ $1 == 'add' ]]; then
+  shift
+  declare -r TASK_TITLE="$*"
+
+  declare LAST_TASK_ID
+  LAST_TASK_ID=$(tail -n1 "$TASK_LIST" | cut -d' ' -f1)
+  declare -r LAST_TASK_ID
+
+  declare -r TASK_ID=$(( LAST_TASK_ID + 1))
+  echo "$TASK_ID $TASK_TITLE" >> "$TASK_LIST"
+fi
