@@ -19,9 +19,10 @@ fi
 
 if [[ $1 == 'list' ]]; then
   echo "# To be done"
-  cat "$TASK_LIST"
+  grep '^[0-9]' "$TASK_LIST" || echo "Empty"
+
   echo "# Completed"
-  echo "Empty"
+  grep '^@[0-9]' "$TASK_LIST" | sed 's/^@//' || echo "Empty"
 fi
 
 if [[ $1 == 'add' ]]; then
@@ -29,17 +30,17 @@ if [[ $1 == 'add' ]]; then
   declare -r TASK_TITLE="$*"
 
   declare LAST_TASK_ID
-  LAST_TASK_ID=$(tail -n1 "$TASK_LIST" | cut -d' ' -f1)
+  LAST_TASK_ID=$(tail -n1 "$TASK_LIST" | cut -d' ' -f1 | grep -o '[0-9]')
   declare -r LAST_TASK_ID
 
   declare -r TASK_ID=$(( LAST_TASK_ID + 1))
   echo "$TASK_ID $TASK_TITLE" >> "$TASK_LIST"
 fi
 
-if [[ $1 == 'edit' ]]; then
-  declare -r TASK_ID="$2"
-  shift 2
-  declare -r TASK_TITLE="$*"
+if [[ $1 == 'mark' ]]; then
+  shift
+  for TASK_ID in "$@"; do
+    sed -i '' "s/^${TASK_ID} /@&/" "$TASK_LIST"
+  done
 
-  sed -i '' "s/^${TASK_ID} .*/${TASK_ID} ${TASK_TITLE}/" "$TASK_LIST"
 fi
