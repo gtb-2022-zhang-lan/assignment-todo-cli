@@ -1,5 +1,18 @@
 #!/usr/bin/env bash
 
+declare -r TODO_ROOT="$HOME/.todo"
+declare -r TASK_LIST="${TODO_ROOT}/tasks"
+
 if [[ $# -eq 0 ]]; then
   echo "usage: todo <init|list|add|edit|remove|mark|unmark> [args]"
+fi
+
+if [[ $1 == 'init' ]]; then
+  mkdir -p "$TODO_ROOT"
+  touch "$TASK_LIST"
+  echo "Initialized successfully"
+fi
+
+if [[ ! -f "$TASK_LIST" ]]; then
+  echo "Please run 'todo init' before running '$1' command."
 fi
