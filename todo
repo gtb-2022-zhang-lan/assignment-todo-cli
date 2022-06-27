@@ -35,3 +35,11 @@ if [[ $1 == 'add' ]]; then
   declare -r TASK_ID=$(( LAST_TASK_ID + 1))
   echo "$TASK_ID $TASK_TITLE" >> "$TASK_LIST"
 fi
+
+if [[ $1 == 'edit' ]]; then
+  declare -r TASK_ID="$2"
+  shift 2
+  declare -r TASK_TITLE="$*"
+
+  sed -i '' "s/^${TASK_ID} .*/${TASK_ID} ${TASK_TITLE}/" "$TASK_LIST"
+fi
