@@ -7,14 +7,15 @@ if [[ $# -eq 0 ]]; then
   echo "usage: todo <init|list|add|edit|remove|mark|unmark> [args]"
 fi
 
+if [[ ! -f "$TASK_LIST" ]]; then
+  echo "Please run 'todo init' before running '$1' command."
+  exit 1
+fi
+
 if [[ $1 == 'init' ]]; then
   mkdir -p "$TODO_ROOT"
   touch "$TASK_LIST"
   echo "Initialized successfully"
-fi
-
-if [[ ! -f "$TASK_LIST" ]]; then
-  echo "Please run 'todo init' before running '$1' command."
 fi
 
 if [[ $1 == 'list' ]]; then
@@ -30,7 +31,7 @@ if [[ $1 == 'add' ]]; then
   declare -r TASK_TITLE="$*"
 
   declare LAST_TASK_ID
-  LAST_TASK_ID=$(tail -n1 "$TASK_LIST" | cut -d' ' -f1 | grep -o '[0-9]')
+  LAST_TASK_ID=$(tail -n1 "$TASK_LIST" | cut -d' ' -f1 | grep -o '[0-9]\+')
   declare -r LAST_TASK_ID
 
   declare -r TASK_ID=$(( LAST_TASK_ID + 1))
